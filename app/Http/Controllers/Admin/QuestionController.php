@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Question;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class QuestionController extends Controller
 {
@@ -12,9 +14,11 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+
+        $quiz = Quiz::where('id', $id)->with('questions')->first() ?? abort(404, 'Quiz Bulunamadı');
+        return view('admin.question.list', compact('quiz'));
     }
 
     /**
@@ -22,15 +26,15 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($quiz_id)
     {
-        //
+        return $quiz_id;
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,7 +45,7 @@ class QuestionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Question  $question
+     * @param \App\Models\Question $question
      * @return \Illuminate\Http\Response
      */
     public function show(Question $question)
@@ -52,7 +56,7 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Question  $question
+     * @param \App\Models\Question $question
      * @return \Illuminate\Http\Response
      */
     public function edit(Question $question)
@@ -63,8 +67,8 @@ class QuestionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Question  $question
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Question $question
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Question $question)
@@ -75,7 +79,7 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Question  $question
+     * @param \App\Models\Question $question
      * @return \Illuminate\Http\Response
      */
     public function destroy(Question $question)

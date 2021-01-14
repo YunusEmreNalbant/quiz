@@ -24,4 +24,5 @@ Route::middleware(['auth', 'verified'])->get('/panel', function () {
 Route::group(['middleware' => ['auth', 'isAdmin'], 'prefix' => 'admin'], function () {
     Route::get('quizzes/{id}', [\App\Http\Controllers\Admin\QuizController::class, 'destroy'])->whereNumber('id')->name('quizzes.destroy');
     Route::resource('quizzes', \App\Http\Controllers\Admin\QuizController::class);
+    Route::resource('quiz/{quiz_id}/questions',\App\Http\Controllers\Admin\QuestionController::class);
 });
