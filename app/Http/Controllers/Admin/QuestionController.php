@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\QuestionCreateRequest;
 use App\Models\Question;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class QuestionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index($id)
     {
 
@@ -21,67 +19,47 @@ class QuestionController extends Controller
         return view('admin.question.list', compact('quiz'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create($quiz_id)
+    public function create($id)
     {
-        return $quiz_id;
+        $quiz = Quiz::find($id);
+
+        return view('admin.question.create', compact('quiz'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function store(QuestionCreateRequest $request, $id)
     {
-        //
+
+        if ($request->hasFile('image')) {
+            $fileName = Str::slug($request->question) . '.' . $request->image->extension();
+            $fileNameWithUpload = 'uploads/' . $fileName;
+            $request->image->move(public_path('uploads'), $fileName);
+            $request->merge([
+                'image' => $fileNameWithUpload
+            ]);
+
+        }
+        Quiz::find($id)->questions()->create($request->post());
+        return redirect()->route('questions.index', $id)->with('success', 'Soru Başarıyla Oluşturuldu.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Question $question
-     * @return \Illuminate\Http\Response
-     */
     public function show(Question $question)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Question $question
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Question $question)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Question $question
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Question $question)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Question $question
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Question $question)
     {
         //
