@@ -23,7 +23,11 @@
                 @foreach($quiz->questions as $question)
                     <tr>
                         <td>{{$question->question}}</td>
-                        <td>{{$question->image}}</td>
+                        <td>
+                            @if($question->image)
+                                <a href="{{asset($question->image)}}" target="_blank" class="btn btn-sm btn-primary">Görüntüle</a>
+                            @endif
+                        </td>
                         <td>{{$question->answer1}}</td>
                         <td>{{$question->answer2}}</td>
                         <td>{{$question->answer3}}</td>
@@ -33,7 +37,8 @@
 
                             <a href="{{route('quizzes.destroy',$quiz->id)}}" class="btn btn-sm btn-danger"><i
                                     class="fa fa-times"></i></a>
-                            <a href="{{route('questions.index',$quiz->id)}}" class="btn btn-sm btn-warning"><i
+                            <a href="{{route('questions.edit',[$quiz->id,$question->id])}}"
+                               class="btn btn-sm btn-warning"><i
                                     class="fa fa-question"></i></a>
                         </td>
                     </tr>
