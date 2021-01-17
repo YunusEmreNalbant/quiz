@@ -15,6 +15,14 @@
                     <textarea name="description" class="form-control" rows="4">{{$quiz->description}}</textarea>
                 </div>
                 <div class="form-group">
+                    <label>Quiz Durumu</label>
+                    <select name="status" class="form-control">
+                        <option @if($quiz->question_count<4) disabled @endif @if($quiz->status==='publish') selected @endif   value="publish">Aktif</option>
+                        <option @if($quiz->status==='publish')  selected @endif value="passive">Pasif</option>
+                        <option @if($quiz->status==='publish') selected @endif value="draft">Taslak</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <input id="isFinished" type="checkbox" @if($quiz->finished_at) checked @endif>
                     <label>Bitiş Tarihi Olcak mı?</label>
                 </div>

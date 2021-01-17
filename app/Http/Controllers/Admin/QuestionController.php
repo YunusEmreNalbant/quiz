@@ -74,8 +74,9 @@ class QuestionController extends Controller
 
     }
 
-    public function destroy(Question $question)
+    public function destroy($quiz_id, $question_id)
     {
-        //
+        Quiz::find($quiz_id)->questions()->where('id', $question_id)->delete();
+        return redirect()->route('questions.index', $quiz_id)->with('success', 'Soru Başarıyla Silindi');
     }
 }

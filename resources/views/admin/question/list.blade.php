@@ -2,7 +2,10 @@
     <x-slot name="header">{{$quiz->title}} Sorular</x-slot>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">
+            <h5 class="card-title float-left">
+                <a href="{{route('quizzes.index')}}" class="btn btn-sm btn-secondary"><i class="fa fa-arrow-left">Quizlere Dön</i></a>
+            </h5>
+            <h5 class="card-title float-right">
                 <a href="{{route('questions.create',$quiz->id)}}" class="btn btn-sm btn-primary"><i class="fa fa-plus">Soru
                         Oluştur</i></a>
             </h5>
@@ -35,7 +38,7 @@
                         <td>{{substr($question->correct_answer,-1)}}. Cevap</td>
                         <td>
 
-                            <a href="{{route('quizzes.destroy',$quiz->id)}}" class="btn btn-sm btn-danger"><i
+                            <a href="{{route('questions.destroy',[$quiz->id,$question->id])}}" class="btn btn-sm btn-danger"><i
                                     class="fa fa-times"></i></a>
                             <a href="{{route('questions.edit',[$quiz->id,$question->id])}}"
                                class="btn btn-sm btn-warning"><i
