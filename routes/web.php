@@ -17,13 +17,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth', 'verified'])->get('/panel', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('panel', [\App\Http\Controllers\MainController::class, 'dashboard'])->name('dashboard');
+    Route::get('quiz/{slug}', [\App\Http\Controllers\MainController::class, 'quiz_detail'])->name('quiz.detail');
+});
 
 Route::group(['middleware' => ['auth', 'isAdmin'], 'prefix' => 'admin'], function () {
     Route::get('quizzes/{id}', [\App\Http\Controllers\Admin\QuizController::class, 'destroy'])->whereNumber('id')->name('quizzes.destroy');
     Route::get('quiz/{quiz_id}/questions/{id}', [\App\Http\Controllers\Admin\QuestionController::class, 'destroy'])->whereNumber('id')->name('questions.destroy');
     Route::resource('quizzes', \App\Http\Controllers\Admin\QuizController::class);
-    Route::resource('quiz/{quiz_id}/questions',\App\Http\Controllers\Admin\QuestionController::class);
+    Route::resource('quiz/{quiz_id}/questions', \App\Http\Controllers\Admin\QuestionController::class);
 });

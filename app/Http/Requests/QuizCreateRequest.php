@@ -25,7 +25,7 @@ class QuizCreateRequest extends FormRequest
     {
         return [
             "title" => 'required|min:3|max:200',
-            "description" => 'required',
+            "description" => 'nullable',
             "finished_at"=>'nullable|after:'.now()
         ];
     }
