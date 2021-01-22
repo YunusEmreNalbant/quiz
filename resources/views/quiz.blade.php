@@ -2,9 +2,9 @@
     <x-slot name="header">{{$quiz->title}}</x-slot>
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="#">
+            <form method="POST" action="{{route('quiz.result',$quiz->slug)}}">
 
-
+                @csrf
                 @foreach($quiz->questions as $question)
 
 
