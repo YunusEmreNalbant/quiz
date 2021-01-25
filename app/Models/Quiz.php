@@ -15,6 +15,7 @@ class Quiz extends Model
 
     protected $fillable = ['title', 'description', 'finished_at', 'status', 'slug'];
     protected $dates = ['finished_at']; //CARBONU KULLANABILMEK ICIN
+    protected $appends = ['details'];
 
     /*
     public function getFinishedAtAttribute($date)
@@ -22,6 +23,23 @@ class Quiz extends Model
         return $date ? Carbon::parse($date) : null;
     }
     */
+    public function getDetailsAttribute()
+    {
+        if ($this->results()->count() > 0) {
+            return [
+                'average' => $this->results()->avg('point'),
+                'join_count' => $this->results()->count()
+            ];
+        }
+
+        return null;
+
+    }
+
+    public function results()
+    {
+        return $this->hasMany(Result::class);
+    }
 
     public function questions()
     {
