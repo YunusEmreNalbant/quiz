@@ -33,7 +33,11 @@ class Quiz extends Model
         }
 
         return null;
+    }
 
+    public function topFive()
+    {
+        return $this->results()->orderByDesc('point')->take(5);
     }
 
     public function results()
