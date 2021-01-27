@@ -15,7 +15,7 @@ class Quiz extends Model
 
     protected $fillable = ['title', 'description', 'finished_at', 'status', 'slug'];
     protected $dates = ['finished_at']; //CARBONU KULLANABILMEK ICIN
-    protected $appends = ['details'];
+    protected $appends = ['details','my_rank'];
 
     /*
     public function getFinishedAtAttribute($date)
@@ -23,6 +23,18 @@ class Quiz extends Model
         return $date ? Carbon::parse($date) : null;
     }
     */
+
+    public function getMyRankAttribute()
+    {
+        $rank = 0;
+        foreach ($this->results()->orderByDesc('point')->get() as $result) {
+            $rank += 1;
+            if (Auth::user()->id == $result->user_id) {
+                return $rank;
+            }
+        }
+    }
+
     public function getDetailsAttribute()
     {
         if ($this->results()->count() > 0) {
@@ -34,6 +46,7 @@ class Quiz extends Model
 
         return null;
     }
+
 
     public function topFive()
     {
