@@ -78,7 +78,7 @@
                         {{$quiz->description}}
                     </p>
                     @if($quiz->my_result)
-                        <a href="#" class="btn btn-warning btn-block">Quiz'i Görüntüle</a>
+                        <a href="{{route('quiz.join',$quiz->slug)}}" class="btn btn-warning btn-block">Quiz'i Görüntüle</a>
                     @else
                         <a href="{{route('quiz.join',$quiz->slug)}}" class="btn btn-primary btn-block">Quiz'e Katıl</a>
 

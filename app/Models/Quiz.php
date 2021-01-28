@@ -15,7 +15,7 @@ class Quiz extends Model
 
     protected $fillable = ['title', 'description', 'finished_at', 'status', 'slug'];
     protected $dates = ['finished_at']; //CARBONU KULLANABILMEK ICIN
-    protected $appends = ['details','my_rank'];
+    protected $appends = ['details','level'];
 
     /*
     public function getFinishedAtAttribute($date)
