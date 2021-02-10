@@ -8,7 +8,8 @@
                 <i class="fa fa-times text-danger"></i> Yanlış Cevap<br>
             </div>
             @foreach($quiz->questions as $question)
-
+                <small>Bu soruya <strong>%{{$question->true_percent}}</strong> oranında doğru cevap verildi.</small>
+                <br>
                 @if($question->correct_answer == $question->my_answer->answer)
                     <i class="fa fa-check text-success"></i>
                 @else
